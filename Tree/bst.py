@@ -92,7 +92,71 @@ class BST:
             return self.__search(node.right, targetValue)
 
 
+    def delete(self, targetValue):
+        searchResult = self.search(targetValue)
 
+        if searchResult == None:
+            return
+        
+        # if the node is a leaf node
+        if searchResult.is_leaf():
+            if searchResult.parent == None:  # the tree only has the root node and we need to delete it
+                self.root == None
+            elif searchResult.is_left_child():
+                searchResult.parent.left = None
+            else:
+                searchResult.parent.right = None
+            del searchResult
+            return
+
+        # if the node has only left child
+        if ((searchResult.left != None) and (searchResult.right == None)):
+            kid = searchResult.left 
+            if searchResult.parent == None:
+                self.root = kid ; kid.parent = None
+            else:
+                parent = searchResult.parent
+                if searchResult.is_left_child():
+                    parent.left = kid
+                else:
+                    parent.right = kid
+                kid.parent = parent
+            del searchResult
+            return
+        
+        # if the node has only right child
+        if ((searchResult.left == None) and (searchResult.right != None)):
+            kid = searchResult.right
+            if searchResult.parent == None:
+                self.root = kid ; kid.parent = None
+            else:
+                parent = searchResult.parent
+                if searchResult.is_left_child():
+                    parent.left = kid
+                else:
+                    parent.right = kid
+                kid.parent = parent
+            del searchResult
+            return
+        
+        # if the node has two children
+        minNode = self.__findMinValue(searchResult.right)
+        searchResult.value = minNode.value
+        if minNode.is_left_child():
+            minNode.parent.left = None
+        else:
+            minNode.parent.right = None
+        minNode.parent = None
+        del minNode
+        return
+
+    # find the minimum value in a tree
+    def __findMinValue(self, root):
+        node = root
+        while node.left != None:
+            node = node.left
+        return node
+    
     def __str__(self):
         if self.is_empty():
             return "[]"
