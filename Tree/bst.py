@@ -21,10 +21,7 @@ class BSTNode:
         return not self.is_left_child()
 
     def __str__(self):
-        return "(" + str(self.value) + ")"
-
-    def __repr__(self):
-         return "(" + str(self.value) + ")"
+        return f"Value: {self.value} -- Address: {id(self)}"
 
 
 class BST:
@@ -85,9 +82,16 @@ class BST:
         if node.value == targetValue:
             return node
         
-        '''
-        If the 
-        '''
+        # if node has no children and the value is not found, return none
+        if node.left == None and node.right == None:
+            return None
+        
+        if targetValue < node.value:
+            return self.__search(node.left, targetValue)
+        else:
+            return self.__search(node.right, targetValue)
+
+
 
     def __str__(self):
         if self.is_empty():
