@@ -21,7 +21,8 @@ class BSTNode:
         return not self.is_left_child()
 
     def __str__(self):
-        return f"Value: {self.value} -- Address: {id(self)}"
+        #return f"Value: {self.value} -- Address: {id(self)}"
+        return str(self.value)
 
 
 class BST:
@@ -101,6 +102,7 @@ class BST:
         # if the node is a leaf node
         if searchResult.is_leaf():
             if searchResult.parent == None:  # the tree only has the root node and we need to delete it
+                print("=== FLAG ===")
                 self.root == None
             elif searchResult.is_left_child():
                 searchResult.parent.left = None
